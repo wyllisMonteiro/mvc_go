@@ -5,7 +5,7 @@ import (
   "fmt"
   "net/http"
   "log"
-  model "github.com/wyllisMonteiro/go_mvc/app/models"
+  model "github.com/wyllisMonteiro/go_mvc/models"
 )
 
 type PageWikis struct {
@@ -13,8 +13,8 @@ type PageWikis struct {
   Articles []model.Article
 }
 
-func GetWikis(w http.ResponseWriter, req *http.Request) {
-  articles, err := model.GetWikis()
+func GetArticles(w http.ResponseWriter, req *http.Request) {
+  articles, err := model.GetArticles()
   if err != nil {
     log.Fatalf("Model execution: %s", err)
     return
@@ -23,19 +23,19 @@ func GetWikis(w http.ResponseWriter, req *http.Request) {
   page := PageWikis{"Titre de ma page", articles}
 
   tmpl := template.New("wikis")
-  tmpl = template.Must(tmpl.ParseFiles("./templates/wikis.tmpl", "templates/articles.tmpl"))
+  tmpl = template.Must(tmpl.ParseFiles("./web/wikis.tmpl", "web/articles.tmpl"))
   err = tmpl.ExecuteTemplate(w, "wikis", page)
   if err != nil {
     log.Fatalf("Template execution: %s", err)
   }
 }
 
-func GetWiki(w http.ResponseWriter, req *http.Request) {
-  article := model.GetWiki(1)
+func GetArticle(w http.ResponseWriter, req *http.Request) {
+  article := model.GetArticle(1)
   fmt.Println(article.Title)
 
   t := template.New("wikis")
-  t = template.Must(t.ParseFiles("./templates/wikis.tmpl"))
+  t = template.Must(t.ParseFiles("./web/wikis.tmpl"))
   err := t.ExecuteTemplate(w, "wikis", nil)
   if err != nil {
     log.Fatalf("Template execution: %s", err)

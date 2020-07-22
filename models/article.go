@@ -3,7 +3,6 @@ package models
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	config "github.com/wyllisMonteiro/go_mvc/app/config"
 )
 
 type Article struct {
@@ -13,10 +12,10 @@ type Article struct {
 	Description string
 }
 
-func GetWikis() ([]Article, error) {
+func GetArticles() ([]Article, error) {
 	var articles []Article
 
-	db, err := config.ConnectToBDD()
+	db, err := ConnectToBDD()
 	if err != nil {
 		fmt.Println(err.Error())
 		return articles, err
@@ -37,10 +36,10 @@ func GetWikis() ([]Article, error) {
 }
 
 
-func GetWiki(id int) (Article) {
+func GetArticle(id int) (Article) {
 	var article Article
 
-	db, err := config.ConnectToBDD()
+	db, err := ConnectToBDD()
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -57,8 +56,8 @@ func GetWiki(id int) (Article) {
 	return article
 }
 
-func CreateWiki() {
-	db, err := config.ConnectToBDD()
+func CreateArticle() {
+	db, err := ConnectToBDD()
 
 	if err != nil {
 		fmt.Println(err.Error())
