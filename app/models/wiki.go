@@ -13,6 +13,31 @@ type Article struct {
 	Description string
 }
 
+func GetWikis() ([]Article) {
+	var articles []Article
+
+	db, err := config.ConnectToBDD()
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return articles
+	}
+
+	defer db.Close()
+
+	// Migrate the schema
+	db.AutoMigrate(&Article{})
+
+	err = db.Find(&articles).Error // find articles
+	if err != nil {
+		fmt.Println(err.Error())
+		return articles
+	}
+
+	return articles
+}
+
+
 func GetWiki(id int) (Article) {
 	var article Article
 

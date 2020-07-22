@@ -9,7 +9,8 @@ import (
 
 func InitRoutes() {
 	r := mux.NewRouter()
-	r.HandleFunc("/", controllers.GetWiki).Methods("GET")
+	r.HandleFunc("/", controllers.GetWikis).Methods("GET")
+	//r.HandleFunc("/", controllers.GetWiki).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":9000", r))
 }
