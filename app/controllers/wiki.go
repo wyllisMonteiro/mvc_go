@@ -14,13 +14,17 @@ type PageWikis struct {
 }
 
 func GetWikis(w http.ResponseWriter, req *http.Request) {
-  articles := model.GetWikis()
+  articles, err := model.GetWikis()
+  if err != nil {
+    log.Fatalf("Model execution: %s", err)
+    return
+  }
 
   page := PageWikis{"Titre de ma page", articles}
 
   tmpl := template.New("wikis")
   tmpl = template.Must(tmpl.ParseFiles("./templates/wikis.tmpl", "templates/articles.tmpl"))
-  err := tmpl.ExecuteTemplate(w, "wikis", page)
+  err = tmpl.ExecuteTemplate(w, "wikis", page)
   if err != nil {
     log.Fatalf("Template execution: %s", err)
   }

@@ -13,14 +13,13 @@ type Article struct {
 	Description string
 }
 
-func GetWikis() ([]Article) {
+func GetWikis() ([]Article, error) {
 	var articles []Article
 
 	db, err := config.ConnectToBDD()
-
 	if err != nil {
 		fmt.Println(err.Error())
-		return articles
+		return articles, err
 	}
 
 	defer db.Close()
@@ -31,10 +30,10 @@ func GetWikis() ([]Article) {
 	err = db.Find(&articles).Error // find articles
 	if err != nil {
 		fmt.Println(err.Error())
-		return articles
+		return articles, err
 	}
 
-	return articles
+	return articles, nil
 }
 
 
