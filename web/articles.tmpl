@@ -1,9 +1,16 @@
-{{define "articles"}}
-    <h1>Articles</h1>
+{{template "base" .}}
+
+{{define "title"}}Home{{end}}
+
+{{define "content"}}
+    <div class="d-flex flex-row bd-highlight mb-3 align-items-center justify-content-between">
+        <h1>Articles</h1>
+        <a href="/article/create" class="btn btn-primary">Créer</a>
+    </div>
 
     <div class="list-group">
-    {{range .}}
-        <a href="#" class="list-group-item list-group-item-action">
+    {{range .Content}}
+        <a href="/article/{{.ID}}" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{.Title}}</h5>
             <small>Now</small>

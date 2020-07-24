@@ -7,6 +7,7 @@ import (
 
 func InitRoutes(r *mux.Router) (*mux.Router) {
 	r.HandleFunc("/", controllers.GetArticles).Methods("GET")
-	//r.HandleFunc("/", controllers.GetArticle).Methods("GET")
+	r.HandleFunc("/articles", controllers.GetArticles).Methods("GET")
+	r.HandleFunc("/article/{id}", controllers.GetArticle).Methods("GET")
 	return r
 }

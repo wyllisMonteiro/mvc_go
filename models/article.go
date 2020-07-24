@@ -2,11 +2,10 @@ package models
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
+	//"github.com/jinzhu/gorm"
 )
 
 type Article struct {
-	gorm.Model
 	ID int
 	Title string
 	Description string
@@ -32,18 +31,20 @@ func GetArticles() ([]Article, error) {
 		return articles, err
 	}
 
+	fmt.Println(articles[2].ID)
+
 	return articles, nil
 }
 
 
-func GetArticle(id int) (Article) {
+func GetArticle(id int) (Article, error) {
 	var article Article
 
 	db, err := ConnectToBDD()
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return article
+		return article, err
 	}
 
 	defer db.Close()
@@ -53,7 +54,7 @@ func GetArticle(id int) (Article) {
 
 	db.First(&article, id) // find article with id
 
-	return article
+	return article, nil
 }
 
 func CreateArticle() {
