@@ -2,7 +2,6 @@ package controllers
 
 import (
   "text/template"
-  "fmt"
   "net/http"
   "log"
   "strconv"
@@ -11,7 +10,12 @@ import (
 )
 
 type Page struct {
-  Content  interface{}
+  Content interface{}
+}
+
+type PageCreateArticle struct {
+  Status string
+  Message string
 }
 
 func GetArticles(w http.ResponseWriter, req *http.Request) {
@@ -32,7 +36,6 @@ func GetArticles(w http.ResponseWriter, req *http.Request) {
 }
 
 func GetArticle(w http.ResponseWriter, req *http.Request) {
-  //article_id, err := strconv.Atoi(req.FormValue("id"))
   urlParams := mux.Vars(req)
   article_id, err := strconv.Atoi(urlParams["id"])
   if err != nil {
@@ -47,7 +50,6 @@ func GetArticle(w http.ResponseWriter, req *http.Request) {
   }
 
   page := Page{article}
-  fmt.Println(article.Title)
 
   t, err := template.ParseFiles("./web/article.tmpl", "./web/base.tmpl",)
   if err != nil {
@@ -57,5 +59,40 @@ func GetArticle(w http.ResponseWriter, req *http.Request) {
   err = t.Execute(w, page)
   if err != nil {
     log.Fatalf("Template execution: %s", err)
+  }
+}
+
+func GetArticleForm(w http.ResponseWriter, req *http.Request) {
+  tmpl, err := template.ParseFiles("web/create_article.tmpl", "web/base.tmpl")
+
+  err = tmpl.Execute(w, nil)
+  if err != nil {
+    log.Fatalf("Template execution: %s", err)
+    return
+  }
+}
+
+func CreateArticle(w http.ResponseWriter, req *http.Request) {
+  var article model.Article
+  article.Title = req.FormValue("title")
+  article.Description = req.FormValue("description")
+
+  page_article := PageCreateArticle{"success", "L'article à bien été créé"}
+
+  err := model.CreateArticle(article)
+  if err != nil {
+    log.Fatalf("Model execution: %s", err)
+    page_article = PageCreateArticle{"error", "Une erreur est survenue lors de la création de l'article"}
+  }
+  
+
+  page := Page{page_article}
+
+  tmpl, err := template.ParseFiles("web/create_article.tmpl", "web/base.tmpl")
+
+  err = tmpl.Execute(w, page)
+  if err != nil {
+    log.Fatalf("Template execution: %s", err)
+    return
   }
 }

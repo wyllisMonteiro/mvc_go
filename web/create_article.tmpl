@@ -1,0 +1,28 @@
+{{template "base" .}}
+
+{{define "title"}}Créer un article{{end}}
+
+{{define "content"}}
+    <div class="d-flex flex-row bd-highlight mb-3 align-items-center justify-content-between">
+        <h1>Création d'un article</h1>
+    </div>
+    {{ if ne .Content nil }}
+        <div class="card card-body text-white bg-{{.Content.Status}}">
+            {{.Content.Message}}
+        </div>
+        <br>
+        <br>
+    {{ end }}
+ 
+    <form method="POST" action="/article/create">
+        <div class="form-group">
+            <label for="inputTitle">Titre</label>
+            <input required name="title" type="text" class="form-control" id="inputTitle" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="inputDescription">Description</label>
+            <textarea required name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{{end}}

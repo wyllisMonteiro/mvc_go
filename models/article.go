@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	//"github.com/jinzhu/gorm"
 )
 
 type Article struct {
@@ -31,8 +30,6 @@ func GetArticles() ([]Article, error) {
 		return articles, err
 	}
 
-	fmt.Println(articles[2].ID)
-
 	return articles, nil
 }
 
@@ -57,12 +54,12 @@ func GetArticle(id int) (Article, error) {
 	return article, nil
 }
 
-func CreateArticle() {
+func CreateArticle(article Article) (error) {
 	db, err := ConnectToBDD()
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return err
 	}
 
 	defer db.Close()
@@ -70,5 +67,7 @@ func CreateArticle() {
 	// Migrate the schema
 	db.AutoMigrate(&Article{})
 
-	db.Create(&Article{Title: "Premier article", Description: "test 2"})
+	db.Create(&article)
+	
+	return nil
 }
