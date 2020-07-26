@@ -64,10 +64,26 @@ func CreateArticle(article Article) (error) {
 
 	defer db.Close()
 
-	// Migrate the schema
 	db.AutoMigrate(&Article{})
 
 	db.Create(&article)
+	
+	return nil
+}
+
+func EditArticle(article Article, new_article Article) (error) {
+	db, err := ConnectToBDD()
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err
+	}
+
+	defer db.Close()
+
+	db.AutoMigrate(&Article{})
+
+	db.Model(&article).Updates(new_article)
 	
 	return nil
 }

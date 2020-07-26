@@ -18,6 +18,12 @@ type PageCreateArticle struct {
   Message string
 }
 
+type PageEditArticle struct {
+  Status string
+  Message string
+  Data interface{}
+}
+
 func GetArticles(w http.ResponseWriter, req *http.Request) {
   articles, err := model.GetArticles()
 
@@ -62,7 +68,7 @@ func GetArticle(w http.ResponseWriter, req *http.Request) {
   }
 }
 
-func GetArticleForm(w http.ResponseWriter, req *http.Request) {
+func CreateArticleForm(w http.ResponseWriter, req *http.Request) {
   tmpl, err := template.ParseFiles("web/create_article.tmpl", "web/base.tmpl")
 
   err = tmpl.Execute(w, nil)
@@ -85,7 +91,6 @@ func CreateArticle(w http.ResponseWriter, req *http.Request) {
     page_article = PageCreateArticle{"error", "Une erreur est survenue lors de la création de l'article"}
   }
   
-
   page := Page{page_article}
 
   tmpl, err := template.ParseFiles("web/create_article.tmpl", "web/base.tmpl")
@@ -95,4 +100,70 @@ func CreateArticle(w http.ResponseWriter, req *http.Request) {
     log.Fatalf("Template execution: %s", err)
     return
   }
+}
+
+func EditArticleForm(w http.ResponseWriter, req *http.Request) {
+  page_article := PageEditArticle{}
+
+  urlParams := mux.Vars(req)
+  article_id, err := strconv.Atoi(urlParams["id"])
+  if err != nil {
+    log.Fatalf("Convert string to int: %s", err)
+    page_article = PageEditArticle{"", "", nil}
+
+  }
+
+  article, err := model.GetArticle(article_id)
+  if err != nil {
+    log.Fatalf("Model execution: %s", err)
+    page_article = PageEditArticle{"", "", nil}
+  }
+
+  page_article.Status = ""
+  page_article.Message = ""
+  page_article.Data = article
+
+  tmpl, err := template.ParseFiles("web/edit_article.tmpl", "web/base.tmpl")
+
+  err = tmpl.Execute(w, page_article)
+  if err != nil {
+    log.Fatalf("Template execution: %s", err)
+    return
+  }
+}
+
+func EditArticle(w http.ResponseWriter, req *http.Request) {
+  var new_article model.Article
+  new_article.Title = req.FormValue("title")
+  new_article.Description = req.FormValue("description")
+
+  page_article := PageEditArticle{"success", "L'article à bien été modifié", nil}
+
+  urlParams := mux.Vars(req)
+  article_id, err := strconv.Atoi(urlParams["id"])
+  if err != nil {
+    log.Fatalf("Convert string to int: %s", err)
+    page_article = PageEditArticle{"danger", "Une erreur est survenue avec la récupération des paramètres de l'url", nil}
+  }
+
+  article, err := model.GetArticle(article_id)
+  if err != nil {
+    log.Fatalf("Model execution: %s", err)
+    page_article = PageEditArticle{"danger", "Impossible de récupérer les informations de l'article", nil}
+  }
+
+  err = model.EditArticle(article, new_article)
+  if err != nil {
+    log.Fatalf("Model execution: %s", err)
+    page_article = PageEditArticle{"danger", "Impossible de récupérer les informations de l'article", nil}
+  }
+
+  tmpl, err := template.ParseFiles("web/edit_article.tmpl", "web/base.tmpl")
+
+  err = tmpl.Execute(w, page_article)
+  if err != nil {
+    log.Fatalf("Template execution: %s", err)
+    return
+  }
+
 }
