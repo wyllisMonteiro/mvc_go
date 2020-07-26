@@ -2,21 +2,18 @@ package models
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	config "github.com/wyllisMonteiro/go_mvc/app/config"
 )
 
 type Article struct {
-	gorm.Model
 	ID int
 	Title string
 	Description string
 }
 
-func GetWikis() ([]Article, error) {
+func GetArticles() ([]Article, error) {
 	var articles []Article
 
-	db, err := config.ConnectToBDD()
+	db, err := ConnectToBDD()
 	if err != nil {
 		fmt.Println(err.Error())
 		return articles, err
@@ -37,14 +34,14 @@ func GetWikis() ([]Article, error) {
 }
 
 
-func GetWiki(id int) (Article) {
+func GetArticle(id int) (Article, error) {
 	var article Article
 
-	db, err := config.ConnectToBDD()
+	db, err := ConnectToBDD()
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return article
+		return article, err
 	}
 
 	defer db.Close()
@@ -54,21 +51,39 @@ func GetWiki(id int) (Article) {
 
 	db.First(&article, id) // find article with id
 
-	return article
+	return article, nil
 }
 
-func CreateWiki() {
-	db, err := config.ConnectToBDD()
+func CreateArticle(article Article) (error) {
+	db, err := ConnectToBDD()
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return err
 	}
 
 	defer db.Close()
 
-	// Migrate the schema
 	db.AutoMigrate(&Article{})
 
-	db.Create(&Article{Title: "Premier article", Description: "test 2"})
+	db.Create(&article)
+	
+	return nil
+}
+
+func EditArticle(article Article, new_article Article) (error) {
+	db, err := ConnectToBDD()
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err
+	}
+
+	defer db.Close()
+
+	db.AutoMigrate(&Article{})
+
+	db.Model(&article).Updates(new_article)
+	
+	return nil
 }
