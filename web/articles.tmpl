@@ -10,13 +10,12 @@
 
     <div class="list-group">
     {{range .Content}}
-        <a href="/article/{{.ID}}" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
+        <div class="d-flex w-100 justify-content-between align-items-center list-group-item list-group-item-action">
+            <a class="d.block w-100 text-dark text-decoration-none" href="/article/{{.ID}}">
             <h5 class="mb-1">{{.Title}}</h5>
-            <small>Now</small>
-            </div>
             <p class="mb-1">{{.Description}}</p>
-        </a>
+            <a href="/article/{{.ID}}/edit">Editer</a>
+        </div>
     {{end}}
     </div>
 {{end}}
