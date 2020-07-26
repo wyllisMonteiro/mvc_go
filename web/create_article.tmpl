@@ -6,14 +6,14 @@
     <div class="d-flex flex-row bd-highlight mb-3 align-items-center justify-content-between">
         <h1>Création d'un article</h1>
     </div>
-    {{ if ne .Content nil }}
-        <div class="card card-body text-white bg-{{.Content.Status}}">
-            {{.Content.Message}}
+    {{ if ne . nil }}
+        <div class="card card-body text-white bg-{{.Status}}">
+            {{.Message}}
         </div>
         <br>
         <br>
     {{ end }}
- 
+
     <form method="POST" action="/article/create">
         <div class="form-group">
             <label for="inputTitle">Titre</label>
