@@ -7,11 +7,9 @@ import (
 	model "github.com/wyllisMonteiro/go_mvc/models"
 )
 
-type t_csv struct {
-	export
-}
+type ExportCSV struct {}
 
-func NewCSV(datas []model.Article) (error) {
+func (exportCSV ExportCSV) Export(datas []model.Article) (error) {
     date_format := formatCurrentDate()
 	file, err := os.OpenFile("article_" + date_format + ".csv", os.O_CREATE|os.O_WRONLY, 0777)
 	

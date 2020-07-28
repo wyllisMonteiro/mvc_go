@@ -61,11 +61,17 @@ func DownloadArticles(w http.ResponseWriter, req *http.Request) {
 
   send_data := PageShowArticle{"success", "Le téléchargement a bien été effectué", articles}
 
-  err = export.GetExport(type_download, articles)
-	if err != nil {
-    send_data = PageShowArticle{"error", "Le téléchargement n'a pas abouti", articles}
-		fmt.Println(err.Error())
-	}
+  typeExport, exists := export.TypeExport[type_download]
+	if !exists {
+    fmt.Println(err.Error())
+    return
+  }
+  
+  typeExport.Export(articles)
+  if err != nil {
+    fmt.Println(err.Error())
+    return
+  }
 
   tmpl, err := template.ParseFiles("web/articles.tmpl", "web/base.tmpl")
   if err != nil {
