@@ -10,9 +10,8 @@ import (
 type ExportCSV struct {}
 
 func (exportCSV ExportCSV) Export(datas []model.Article) (error) {
-    date_format := formatCurrentDate()
-	file, err := os.OpenFile("article_" + date_format + ".csv", os.O_CREATE|os.O_WRONLY, 0777)
-	
+	file, err := os.OpenFile("assets/csv/article_" + formatCurrentDate() + ".csv", os.O_CREATE|os.O_WRONLY, 0777)
+    
     defer file.Close()
  
     if err != nil {
