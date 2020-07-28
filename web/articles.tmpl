@@ -4,12 +4,39 @@
 
 {{define "content"}}
     <div class="d-flex flex-row bd-highlight mb-3 align-items-center justify-content-between">
-        <h1>Articles</h1>
-        <a href="/article/create" class="btn btn-primary">Créer</a>
+        <div class="d-flex flex-row justify-content-center align-items-center">
+            <h1 class="mr-3">Articles</h1>
+            <a href="/article/create" class="btn btn-primary">Créer</a>
+        </div>
+
+        <div class="d-flex flex-row align-items-center">
+            <form method="POST" action="/articles" class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <select name="type_download" class="form-control" id="inputSelect">
+                        <option value="csv">CSV</option>
+                        <option value="autre">autre</option>
+                    </select>
+
+                    <button type="submit" class="d-flex btn btn-success ml-3">
+                        <span class="material-icons">
+                            get_app
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
+    {{ if ne .Status "" }}
+    <div class="card card-body text-white bg-{{.Status}}">
+        {{.Message}}
+    </div>
+    <br>
+    <br>
+    {{ end }}
+
     <div class="list-group">
-    {{range .Content}}
+    {{range .Data}}
         <div class="d-flex w-100 justify-content-between align-items-center list-group-item list-group-item-action">
             <a class="d.block w-100 text-dark text-decoration-none" href="/article/{{.ID}}">
             <h5 class="mb-1">{{.Title}}</h5>

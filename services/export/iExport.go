@@ -1,5 +1,5 @@
 package export
 
 type iExport interface {
-    Export(name string)
+    SetStatus(status string)
 }

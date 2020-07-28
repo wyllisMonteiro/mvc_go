@@ -5,12 +5,16 @@ import (
   "net/http"
   "log"
   "strconv"
-	"github.com/gorilla/mux"
+  "fmt"
+  "github.com/gorilla/mux"
+	export "github.com/wyllisMonteiro/go_mvc/services/export"
   model "github.com/wyllisMonteiro/go_mvc/models"
 )
 
 type PageShowArticle struct {
-  Content interface{}
+  Status string
+  Message string
+  Data interface{}
 }
 
 type PageCreateArticle struct {
@@ -31,7 +35,37 @@ func GetArticles(w http.ResponseWriter, req *http.Request) {
     return
   }
 
-  send_data := PageShowArticle{articles}
+  send_data := PageShowArticle{"", "", articles}
+
+  tmpl, err := template.ParseFiles("web/articles.tmpl", "web/base.tmpl")
+  if err != nil {
+    log.Fatalf("Template execution: %s", err)
+    return
+  }
+
+  err = tmpl.Execute(w, send_data)
+  if err != nil {
+    log.Fatalf("Template execution: %s", err)
+    return
+  }
+}
+
+func DownloadArticles(w http.ResponseWriter, req *http.Request) {
+  type_download := req.FormValue("type_download")
+
+  articles, err := model.GetArticles()
+  if err != nil {
+    log.Fatalf("Model execution: %s", err)
+    return
+  }
+
+  send_data := PageShowArticle{"success", "Le téléchargement a bien été effectué", articles}
+
+  err = export.GetExport(type_download, articles)
+	if err != nil {
+    send_data = PageShowArticle{"error", "Le téléchargement n'a pas abouti", articles}
+		fmt.Println(err.Error())
+	}
 
   tmpl, err := template.ParseFiles("web/articles.tmpl", "web/base.tmpl")
   if err != nil {
@@ -60,7 +94,7 @@ func GetArticle(w http.ResponseWriter, req *http.Request) {
     return
   }
 
-  send_data := PageShowArticle{article}
+  send_data := PageShowArticle{"", "", article}
 
   tmpl, err := template.ParseFiles("./web/article.tmpl", "./web/base.tmpl",)
   if err != nil {

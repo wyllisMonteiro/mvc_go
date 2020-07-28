@@ -1,6 +1,10 @@
 package export
 
-type export struct {}
+type export struct {
+	Status string
+	Error error
+}
 
-func (e *export) Export(name string) {
+func (e *export) SetStatus(status string) {
+	e.Status = status
 }

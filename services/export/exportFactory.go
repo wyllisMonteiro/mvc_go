@@ -1,10 +1,13 @@
 package export
 
-import "fmt"
+import (
+    "fmt"
+	model "github.com/wyllisMonteiro/go_mvc/models"
+)
 
-func GetExport(exportType string) (iExport, error) {
+func GetExport(exportType string, datas []model.Article) (error) {
     if exportType == "csv" {
-        return NewCSV(), nil
+        return NewCSV(datas)
     }
-    return nil, fmt.Errorf("Wrong gun type passed")
+    return fmt.Errorf("Wrong gun type passed")
 }
