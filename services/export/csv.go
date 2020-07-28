@@ -2,7 +2,6 @@ package export
 
 import (
     "os"
-    "fmt"
     "encoding/csv"
     "time"
 	model "github.com/wyllisMonteiro/go_mvc/models"
