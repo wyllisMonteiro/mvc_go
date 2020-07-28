@@ -1,10 +1,13 @@
 package export
 
-type export struct {
-	Status string
-	Error error
+import (
+	model "github.com/wyllisMonteiro/go_mvc/models"
+)
+
+type ExportArticles interface {
+	Export(datas []model.Article) (error)
 }
 
-func (e *export) SetStatus(status string) {
-	e.Status = status
+var TypeExport = map[string]ExportArticles{
+	"csv": ExportCSV{},
 }
