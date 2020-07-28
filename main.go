@@ -8,8 +8,6 @@ import (
 )
 
 func main() {
-	// Delete - delete article
-	//db.Delete(&article)
 	r := mux.NewRouter()
 	router.InitRoutes(r)
 	log.Fatal(http.ListenAndServe(":9000", r))
