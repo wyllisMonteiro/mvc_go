@@ -10,4 +10,5 @@ type ExportArticles interface {
 
 var TypeExport = map[string]ExportArticles{
 	"csv": ExportCSV{},
+	"xlsx": ExportXLSX{},
 }
