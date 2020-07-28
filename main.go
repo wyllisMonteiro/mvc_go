@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/wyllisMonteiro/go_mvc/router"
 	"log"
-	"github.com/gorilla/mux"
 	"net/http"
+	"github.com/wyllisMonteiro/go_mvc/router"
+	"github.com/gorilla/mux"
 )
 
 func main() {
