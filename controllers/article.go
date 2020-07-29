@@ -60,11 +60,7 @@ func DownloadArticles(w http.ResponseWriter, req *http.Request) {
 
   send_data := PageShowArticle{"success", "Le téléchargement a bien été effectué", articles}
 
-  if type_download == "csv" {
-    export.InitExport(&export.CSV{}, articles)
-  } else {
-    export.InitExport(&export.XLSX{}, articles)
-  }
+  export.ManageExport(type_download, articles)
 
   tmpl, err := template.ParseFiles("web/articles.tmpl", "web/base.tmpl")
   if err != nil {

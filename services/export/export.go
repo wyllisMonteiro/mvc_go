@@ -10,15 +10,12 @@ type Export struct {
 }
 
 func InitExport(e ExportArticles, a []model.Article) *Export {
-	export_file := &Export{
+	return &Export{
 		exportArticles: e,
 		articles: a,
 	}
-
-	MakeExport(export_file)
-	return export_file
 }
 
-func MakeExport(e *Export) {
+func (e *Export) MakeExport() {
     e.exportArticles.ExportAsFile(e.articles)
 }
