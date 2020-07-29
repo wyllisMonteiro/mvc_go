@@ -5,7 +5,6 @@ import (
   "net/http"
   "log"
   "strconv"
-  "fmt"
   "github.com/gorilla/mux"
 	export "github.com/wyllisMonteiro/go_mvc/services/export"
   model "github.com/wyllisMonteiro/go_mvc/models"
@@ -61,16 +60,10 @@ func DownloadArticles(w http.ResponseWriter, req *http.Request) {
 
   send_data := PageShowArticle{"success", "Le téléchargement a bien été effectué", articles}
 
-  typeExport, exists := export.TypeExport[type_download]
-	if !exists {
-    fmt.Println(err.Error())
-    return
-  }
-  
-  typeExport.Export(articles)
-  if err != nil {
-    fmt.Println(err.Error())
-    return
+  if type_download == "csv" {
+    export.InitExport(&export.CSV{}, articles)
+  } else {
+    export.InitExport(&export.XLSX{}, articles)
   }
 
   tmpl, err := template.ParseFiles("web/articles.tmpl", "web/base.tmpl")

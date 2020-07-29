@@ -4,11 +4,21 @@ import (
 	model "github.com/wyllisMonteiro/go_mvc/models"
 )
 
-type ExportArticles interface {
-	Export(datas []model.Article) (error)
+type Export struct {
+	exportArticles ExportArticles
+	articles []model.Article
 }
 
-var TypeExport = map[string]ExportArticles{
-	"csv": ExportCSV{},
-	"xlsx": ExportXLSX{},
+func InitExport(e ExportArticles, a []model.Article) *Export {
+	export_file := &Export{
+		exportArticles: e,
+		articles: a,
+	}
+
+	MakeExport(export_file)
+	return export_file
+}
+
+func MakeExport(e *Export) {
+    e.exportArticles.ExportAsFile(e.articles)
 }
