@@ -1,78 +1,23 @@
 package controllers
 
 import (
-  "text/template"
   "net/http"
   "log"
   "strconv"
   "github.com/gorilla/mux"
-	export "github.com/wyllisMonteiro/go_mvc/services/export"
+	service "github.com/wyllisMonteiro/go_mvc/services"
   model "github.com/wyllisMonteiro/go_mvc/models"
 )
 
-type PageShowArticle struct {
-  Status string
-  Message string
-  Data interface{}
-}
-
-type PageCreateArticle struct {
-  Status string
-  Message string
-}
-
-type PageEditArticle struct {
-  Status string
-  Message string
-  Data interface{}
-}
-
 func GetArticles(w http.ResponseWriter, req *http.Request) {
-  articles, err := model.GetArticles()
-  if err != nil {
-    log.Fatalf("Model execution: %s", err)
-    return
-  }
-
-  send_data := PageShowArticle{"", "", articles}
-
-  tmpl, err := template.ParseFiles("web/articles.tmpl", "web/base.tmpl")
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
-
-  err = tmpl.Execute(w, send_data)
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
+  service.RenderArticles(w)
 }
 
 func DownloadArticles(w http.ResponseWriter, req *http.Request) {
   type_download := req.FormValue("type_download")
 
-  articles, err := model.GetArticles()
-  if err != nil {
-    log.Fatalf("Model execution: %s", err)
-    return
-  }
-
-  send_data := PageShowArticle{"success", "Le téléchargement a bien été effectué", articles}
-
-  export.ManageExport(type_download, articles)
-
-  tmpl, err := template.ParseFiles("web/articles.tmpl", "web/base.tmpl")
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
-
-  err = tmpl.Execute(w, send_data)
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
+  service.LaunchExport(type_download)
+  service.Redirect(w, req, "/")
 }
 
 func GetArticle(w http.ResponseWriter, req *http.Request) {
@@ -83,85 +28,28 @@ func GetArticle(w http.ResponseWriter, req *http.Request) {
     return
   }
 
-  article, err := model.GetArticle(article_id)
-  if err != nil {
-    log.Fatalf("Model execution: %s", err)
-    return
-  }
-
-  send_data := PageShowArticle{"", "", article}
-
-  tmpl, err := template.ParseFiles("./web/article.tmpl", "./web/base.tmpl",)
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
-
-  err = tmpl.Execute(w, send_data)
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
+  service.RenderArticle(w, article_id)
 }
 
-/**
- *
- * Display article form before posting data
- *
- */
 func CreateArticleForm(w http.ResponseWriter, req *http.Request) {
-  tmpl, err := template.ParseFiles("web/create_article.tmpl", "web/base.tmpl")
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
-
-  err = tmpl.Execute(w, nil)
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
+  service.RenderCreateArticle(w)
 }
 
-/**
- *
- * Data posted
- *
- */
 func CreateArticle(w http.ResponseWriter, req *http.Request) {
   var article model.Article
   article.Title = req.FormValue("title")
   article.Description = req.FormValue("description")
-
-  send_data := PageCreateArticle{"success", "L'article à bien été créé"}
-
-  err := model.CreateArticle(article)
-  if err != nil {
-    log.Fatalf("Model execution: %s", err)
-    send_data = PageCreateArticle{"error", "Une erreur est survenue lors de la création de l'article"}
-  }
   
-  tmpl, err := template.ParseFiles("web/create_article.tmpl", "web/base.tmpl")
+  article_id, err := service.CreateArticle(article)
   if err != nil {
-    log.Fatalf("Template execution: %s", err)
+    log.Fatalf("Database : %s", err)
     return
   }
 
-  err = tmpl.Execute(w, send_data)
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
+  service.Redirect(w, req, "/article/" + strconv.Itoa(article_id))
 }
 
-/**
- *
- * Display article form before posting data
- *
- */
 func EditArticleForm(w http.ResponseWriter, req *http.Request) {
-  send_data := PageEditArticle{}
-
   urlParams := mux.Vars(req)
   article_id, err := strconv.Atoi(urlParams["id"])
   if err != nil {
@@ -169,39 +57,14 @@ func EditArticleForm(w http.ResponseWriter, req *http.Request) {
     return
   }
 
-  article, err := model.GetArticle(article_id)
-  if err != nil {
-    log.Fatalf("Model execution: %s", err)
-    return
-  }
-
-  send_data = PageEditArticle{"", "", article}
-
-  tmpl, err := template.ParseFiles("web/edit_article.tmpl", "web/base.tmpl")
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
-
-  err = tmpl.Execute(w, send_data)
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
+  service.RenderEditArticle(w, article_id)
 }
 
-/**
- *
- * Data posted
- *
- */
-func EditArticle(w http.ResponseWriter, req *http.Request) {
+func UpdateArticle(w http.ResponseWriter, req *http.Request) {
   var new_article model.Article
   new_article.Title = req.FormValue("title")
   new_article.Description = req.FormValue("description")
 
-  send_data := PageEditArticle{"success", "L'article à bien été modifié", nil}
-
   urlParams := mux.Vars(req)
   article_id, err := strconv.Atoi(urlParams["id"])
   if err != nil {
@@ -209,28 +72,16 @@ func EditArticle(w http.ResponseWriter, req *http.Request) {
     return
   }
 
-  article, err := model.GetArticle(article_id)
+  article, err := service.GetArticle(article_id)
   if err != nil {
     log.Fatalf("Model execution: %s", err)
     return
   }
 
-  err = model.EditArticle(article, new_article)
+  err = service.UpdateArticle(article, new_article)
   if err != nil {
     log.Fatalf("Model execution: %s", err)
-    send_data = PageEditArticle{"danger", "Impossible de modifier les informations de l'article", nil}
   }
 
-  tmpl, err := template.ParseFiles("web/edit_article.tmpl", "web/base.tmpl")
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
-
-  err = tmpl.Execute(w, send_data)
-  if err != nil {
-    log.Fatalf("Template execution: %s", err)
-    return
-  }
-
+  service.Redirect(w, req, "/article/" + urlParams["id"])
 }
