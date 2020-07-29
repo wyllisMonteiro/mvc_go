@@ -6,27 +6,20 @@
     <div class="d-flex flex-row bd-highlight mb-3 align-items-center justify-content-between">
         <h1>Edition d'un article</h1>
     </div>
-    {{ if ne .Status "" }}
-        <div class="card card-body text-white bg-{{.Status}}">
-            {{.Message}}
-        </div>
-        <br>
-        <br>
-    {{ end }}
  
-    <form method="POST" action="/article/1/edit">
+    <form method="POST" action="/article/{{.ID}}/edit">
         <div class="form-group">
             <label for="inputTitle">Titre</label>
-            {{ if ne .Data nil }}
-                <input required name="title" type="text" class="form-control" id="inputTitle" aria-describedby="emailHelp" value="{{.Data.Title}}">
+            {{ if ne .Title "" }}
+                <input required name="title" type="text" class="form-control" id="inputTitle" aria-describedby="emailHelp" value="{{.Title}}">
             {{ else }}
                 <input required name="title" type="text" class="form-control" id="inputTitle" aria-describedby="emailHelp">
             {{ end }}       
         </div>
         <div class="form-group">
             <label for="inputDescription">Description</label>
-            {{ if ne .Data nil }}
-                <textarea required name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{.Data.Description}}</textarea>
+            {{ if ne .Description "" }}
+                <textarea required name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{.Description}}</textarea>
             {{ else }}
                 <textarea required name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             {{ end }}

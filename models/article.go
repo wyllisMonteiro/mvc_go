@@ -54,21 +54,21 @@ func GetArticle(id int) (Article, error) {
 	return article, nil
 }
 
-func CreateArticle(article Article) (error) {
+func CreateArticle(article Article) (int, error) {
 	db, err := ConnectToBDD()
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err
+		return 0, err
 	}
 
 	defer db.Close()
 
 	db.AutoMigrate(&Article{})
 
-	db.Create(&article)
+	db.Save(&article)
 	
-	return nil
+	return article.ID, nil
 }
 
 func EditArticle(article Article, new_article Article) (error) {

@@ -27,16 +27,8 @@
         </div>
     </div>
 
-    {{ if ne .Status "" }}
-    <div class="card card-body text-white bg-{{.Status}}">
-        {{.Message}}
-    </div>
-    <br>
-    <br>
-    {{ end }}
-
     <div class="list-group">
-    {{range .Data}}
+    {{range .}}
         <div class="d-flex w-100 justify-content-between align-items-center list-group-item list-group-item-action">
             <a class="d.block w-100 text-dark text-decoration-none" href="/article/{{.ID}}">
             <h5 class="mb-1">{{.Title}}</h5>

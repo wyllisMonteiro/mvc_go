@@ -13,6 +13,6 @@ func InitRoutes(r *mux.Router) (*mux.Router) {
 	r.HandleFunc("/article/create", controllers.CreateArticle).Methods("POST")
 	r.HandleFunc("/article/{id}", controllers.GetArticle).Methods("GET")
 	r.HandleFunc("/article/{id}/edit", controllers.EditArticleForm).Methods("GET")
-	r.HandleFunc("/article/{id}/edit", controllers.EditArticle).Methods("POST")
+	r.HandleFunc("/article/{id}/edit", controllers.UpdateArticle).Methods("POST")
 	return r
 }
