@@ -27,6 +27,4 @@ func (exportXLSX XLSX) ExportAsFile(datas []model.Article) {
 		println(err.Error())
 		return
 	}
-
-	return
 }

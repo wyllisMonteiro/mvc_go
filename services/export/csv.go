@@ -11,12 +11,12 @@ type CSV struct {}
 
 func (exportCSV CSV) ExportAsFile(datas []model.Article) {
 	file, err := os.OpenFile("assets/csv/article_" + formatCurrentDate() + ".csv", os.O_CREATE|os.O_WRONLY, 0777)
-    
-    defer file.Close()
- 
+     
     if err != nil {
         return
     }
+
+    defer file.Close()
 
     init_array := []string{"Titre", "Description"}
 
@@ -26,8 +26,13 @@ func (exportCSV CSV) ExportAsFile(datas []model.Article) {
     }
 
     csvWriter := csv.NewWriter(file)
-    csvWriter.WriteAll(strWrite)
-	csvWriter.Flush()
+
+    defer csvWriter.Flush()
+
+    err = csvWriter.WriteAll(strWrite)
+    if err != nil {
+        return
+    }
 }
 
 func formatCurrentDate() (string) {
