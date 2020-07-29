@@ -6,9 +6,9 @@ import (
 	model "github.com/wyllisMonteiro/go_mvc/models"
 )
 
-type ExportXLSX struct {}
+type XLSX struct {}
 
-func (exportXLSX ExportXLSX) Export(datas []model.Article) (error) {
+func (exportXLSX XLSX) ExportAsFile(datas []model.Article) {
 	f := excelize.NewFile()
     // Set value of a cell.
     f.SetCellValue("Sheet1", "A1", "Titre")
@@ -25,8 +25,8 @@ func (exportXLSX ExportXLSX) Export(datas []model.Article) (error) {
     // Save xlsx file by the given path.
     if err := f.SaveAs("assets/xlsx/articles_" + formatCurrentDate() + ".xlsx"); err != nil {
 		println(err.Error())
-		return err
+		return
 	}
 
-	return nil
+	return
 }

@@ -7,15 +7,15 @@ import (
 	model "github.com/wyllisMonteiro/go_mvc/models"
 )
 
-type ExportCSV struct {}
+type CSV struct {}
 
-func (exportCSV ExportCSV) Export(datas []model.Article) (error) {
+func (exportCSV CSV) ExportAsFile(datas []model.Article) {
 	file, err := os.OpenFile("assets/csv/article_" + formatCurrentDate() + ".csv", os.O_CREATE|os.O_WRONLY, 0777)
     
     defer file.Close()
  
     if err != nil {
-        return err
+        return
     }
 
     init_array := []string{"Titre", "Description"}
@@ -28,8 +28,6 @@ func (exportCSV ExportCSV) Export(datas []model.Article) (error) {
     csvWriter := csv.NewWriter(file)
     csvWriter.WriteAll(strWrite)
 	csvWriter.Flush()
-
-	return nil
 }
 
 func formatCurrentDate() (string) {
