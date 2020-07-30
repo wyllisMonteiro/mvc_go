@@ -11,7 +11,8 @@ import (
 type CSV struct{}
 
 func (exportCSV CSV) ExportAsFile(datas []model.Article, handler HandlerServer) error {
-	handler.Writer.Header().Set("Content-Disposition", "attachment; filename=export.csv")
+	contentDisposition := "attachment; filename=articles_" + formatCurrentDate() + ".csv"
+	handler.Writer.Header().Set("Content-Disposition", contentDisposition)
 	handler.Writer.Header().Set("Content-Type", "text/csv")
 	handler.Writer.Header().Set("Transfer-Encoding", "chunked")
 
