@@ -5,8 +5,8 @@ import (
 )
 
 type Article struct {
-	ID int
-	Title string
+	ID          int
+	Title       string
 	Description string
 }
 
@@ -32,7 +32,6 @@ func GetArticles() ([]Article, error) {
 
 	return articles, nil
 }
-
 
 func GetArticle(id int) (Article, error) {
 	var article Article
@@ -67,11 +66,11 @@ func CreateArticle(article Article) (int, error) {
 	db.AutoMigrate(&Article{})
 
 	db.Save(&article)
-	
+
 	return article.ID, nil
 }
 
-func EditArticle(article Article, new_article Article) (error) {
+func EditArticle(article Article, new_article Article) error {
 	db, err := ConnectToBDD()
 
 	if err != nil {
@@ -84,6 +83,6 @@ func EditArticle(article Article, new_article Article) (error) {
 	db.AutoMigrate(&Article{})
 
 	db.Model(&article).Updates(new_article)
-	
+
 	return nil
 }
