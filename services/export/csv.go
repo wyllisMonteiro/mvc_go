@@ -1,41 +1,41 @@
 package export
 
 import (
-    "os"
-    "encoding/csv"
-    "time"
+	"encoding/csv"
+	"net/http"
+	"time"
+
 	model "github.com/wyllisMonteiro/go_mvc/models"
 )
 
-type CSV struct {}
+type CSV struct{}
 
-func (exportCSV CSV) ExportAsFile(datas []model.Article) {
-	file, err := os.OpenFile("assets/csv/article_" + formatCurrentDate() + ".csv", os.O_CREATE|os.O_WRONLY, 0777)
-     
-    if err != nil {
-        return
-    }
+func (exportCSV CSV) ExportAsFile(datas []model.Article, handler HandlerServer) error {
+	handler.Writer.Header().Set("Content-Disposition", "attachment; filename=export.csv")
+	handler.Writer.Header().Set("Content-Type", "text/csv")
+	handler.Writer.Header().Set("Transfer-Encoding", "chunked")
 
-    defer file.Close()
+	writer := csv.NewWriter(handler.Writer)
+	err := writer.Write([]string{"Titre", "Description"})
+	if err != nil {
+		http.Error(handler.Writer, "cannot write to file", http.StatusInternalServerError)
+		return err
+	}
 
-    init_array := []string{"Titre", "Description"}
+	for _, item := range datas {
+		err := writer.Write([]string{item.Title, item.Description})
+		if err != nil {
+			http.Error(handler.Writer, "cannot write to file", http.StatusInternalServerError)
+			return err
+		}
+	}
 
-    strWrite := [][]string{init_array}
-    for _, item := range datas {
-        strWrite = append(strWrite, []string{item.Title, item.Description})
-    }
+	writer.Flush()
 
-    csvWriter := csv.NewWriter(file)
-
-    defer csvWriter.Flush()
-
-    err = csvWriter.WriteAll(strWrite)
-    if err != nil {
-        return
-    }
+	return nil
 }
 
-func formatCurrentDate() (string) {
-    today := time.Now()
-    return today.Format("2006.01.02 15:04")
-} 
+func formatCurrentDate() string {
+	today := time.Now()
+	return today.Format("2006.01.02 15:04")
+}
