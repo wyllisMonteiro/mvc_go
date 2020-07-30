@@ -3,7 +3,7 @@
 ## Set up database
 - Go in models/bdd and add your config
 - You can create default db called wiki or change NAME_DB constant
-- That's it because Gorm will create database schema
+- That's it !!! Because Gorm will create database schema
 
 ## Set up linter with vscode
 - Open config vscode file 
@@ -17,18 +17,17 @@
         "--fast"
     ],
     ```
-- Thank's to ```.golangci.yml``` file there is all tools you needed
+- Thank's to ```.golangci.yml``` file, there are all the necessary tools
 
 ## Set up unit tests with vscode
 - Just create a file with _test.go name
-<p style='background-color:#c0c0c0; padding: 10px; color: #333'>
 Example :
+
 For example, you want to create unit tests to a file called **auth.go**
 Create a new file called **auth_test.go** at the same location than **auth.go**
 In that file, add all functions needed to make tests with **Test** in prefix function name
-like TestLogin(), TestLogout().
+like **TestLogin()**, **TestLogout()**.
 For more details about writting tests check this link : https://medium.com/better-programming/easy-guide-to-unit-testing-in-golang-4fc1e9d96679
-</p>
 
 ## Launch unit tests
 ```sh
