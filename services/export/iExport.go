@@ -5,5 +5,5 @@ import (
 )
 
 type ExportArticles interface {
-	ExportAsFile(datas []model.Article)
+	ExportAsFile(datas []model.Article, handler HandlerServer) error
 }
