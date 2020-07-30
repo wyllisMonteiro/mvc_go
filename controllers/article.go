@@ -12,10 +12,23 @@ import (
 	export "github.com/wyllisMonteiro/go_mvc/services/export"
 )
 
+/**
+ *
+ * Render all articles view
+ * GET /
+ * GET /articles
+ *
+ */
 func GetArticles(w http.ResponseWriter, req *http.Request) {
 	service.RenderArticles(w)
 }
 
+/**
+ *
+ * Download articles to CSV or XLSX
+ * POST /articles/download
+ *
+ */
 func DownloadArticles(w http.ResponseWriter, req *http.Request) {
 	type_download := req.FormValue("type_download")
 
@@ -30,6 +43,12 @@ func DownloadArticles(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+/**
+ *
+ * Render an article view
+ * GET /article/{id}
+ *
+ */
 func GetArticle(w http.ResponseWriter, req *http.Request) {
 	urlParams := mux.Vars(req)
 	article_id, err := strconv.Atoi(urlParams["id"])
@@ -41,10 +60,22 @@ func GetArticle(w http.ResponseWriter, req *http.Request) {
 	service.RenderArticle(w, article_id)
 }
 
+/**
+ *
+ * Render create article view
+ * GET /article/create
+ *
+ */
 func CreateArticleForm(w http.ResponseWriter, req *http.Request) {
 	service.RenderCreateArticle(w)
 }
 
+/**
+ *
+ * Create article and redirect to new article created
+ * POST /article/create
+ *
+ */
 func CreateArticle(w http.ResponseWriter, req *http.Request) {
 	var article model.Article
 	article.Title = req.FormValue("title")
@@ -59,6 +90,12 @@ func CreateArticle(w http.ResponseWriter, req *http.Request) {
 	service.Redirect(w, req, "/article/"+strconv.Itoa(article_id))
 }
 
+/**
+ *
+ * Render edit article view
+ * GET /article/{id}/edit
+ *
+ */
 func EditArticleForm(w http.ResponseWriter, req *http.Request) {
 	urlParams := mux.Vars(req)
 	article_id, err := strconv.Atoi(urlParams["id"])
@@ -70,6 +107,12 @@ func EditArticleForm(w http.ResponseWriter, req *http.Request) {
 	service.RenderEditArticle(w, article_id)
 }
 
+/**
+ *
+ * Edit article and redirect to edited article
+ * POST /article/{id}/edit
+ *
+ */
 func UpdateArticle(w http.ResponseWriter, req *http.Request) {
 	var new_article model.Article
 	new_article.Title = req.FormValue("title")

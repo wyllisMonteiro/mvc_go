@@ -3,10 +3,25 @@ package main
 import (
 	"log"
 	"net/http"
-	"github.com/wyllisMonteiro/go_mvc/router"
+
 	"github.com/gorilla/mux"
+	"github.com/wyllisMonteiro/go_mvc/router"
 )
 
+/**
+ *
+ * Author : Wyllis Monteiro
+ * Student at Hetic
+ * Project MT4
+ *
+ * Learn software architecture
+ *
+ * Routes are in /router/router.go file
+ * Each route load a controller (handler)
+ *
+ * Please check README.md
+ *
+ */
 func main() {
 	r := mux.NewRouter()
 	router.InitRoutes(r)
