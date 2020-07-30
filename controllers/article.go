@@ -27,8 +27,6 @@ func DownloadArticles(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		return
 	}
-
-	service.Redirect(w, req, "/")
 }
 
 func GetArticle(w http.ResponseWriter, req *http.Request) {
