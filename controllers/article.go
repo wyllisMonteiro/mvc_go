@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -61,7 +62,8 @@ func CreateArticle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	service.Redirect(w, req, "/article/"+strconv.Itoa(article_id))
+	route := fmt.Sprintf("/article/%d", article_id)
+	service.Redirect(w, req, route)
 }
 
 // Render edit article view
@@ -100,5 +102,6 @@ func UpdateArticle(w http.ResponseWriter, req *http.Request) {
 		log.Fatalf("Model execution: %s", err)
 	}
 
-	service.Redirect(w, req, "/article/"+urlParams["id"])
+	route := fmt.Sprintf("/article/%s", urlParams["id"])
+	service.Redirect(w, req, route)
 }
