@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -19,14 +20,14 @@ func GetArticles(w http.ResponseWriter, req *http.Request) {
 
 // Download articles to CSV or XLSX
 func DownloadArticles(w http.ResponseWriter, req *http.Request) {
-	type_download := req.FormValue("type_download")
+	typeDownload := req.FormValue("type_download")
 
 	handler := export.HandlerServer{
 		Writer:  w,
 		Request: req,
 	}
 
-	err := service.LaunchExport(type_download, handler)
+	err := service.LaunchExport(typeDownload, handler)
 	if err != nil {
 		return
 	}
@@ -35,13 +36,13 @@ func DownloadArticles(w http.ResponseWriter, req *http.Request) {
 // Render an article view
 func GetArticle(w http.ResponseWriter, req *http.Request) {
 	urlParams := mux.Vars(req)
-	article_id, err := strconv.Atoi(urlParams["id"])
+	articleId, err := strconv.Atoi(urlParams["id"])
 	if err != nil {
 		log.Fatalf("Convert string to int: %s", err)
 		return
 	}
 
-	service.RenderArticle(w, article_id)
+	service.RenderArticle(w, articleId)
 }
 
 // Render create article view
@@ -55,50 +56,52 @@ func CreateArticle(w http.ResponseWriter, req *http.Request) {
 	article.Title = req.FormValue("title")
 	article.Description = req.FormValue("description")
 
-	article_id, err := service.CreateArticle(article)
+	articleId, err := service.CreateArticle(article)
 	if err != nil {
 		log.Fatalf("Database : %s", err)
 		return
 	}
 
-	service.Redirect(w, req, "/article/"+strconv.Itoa(article_id))
+	route := fmt.Sprintf("/article/%d", articleId)
+	service.Redirect(w, req, route)
 }
 
 // Render edit article view
 func EditArticleForm(w http.ResponseWriter, req *http.Request) {
 	urlParams := mux.Vars(req)
-	article_id, err := strconv.Atoi(urlParams["id"])
+	articleId, err := strconv.Atoi(urlParams["id"])
 	if err != nil {
 		log.Fatalf("Convert string to int: %s", err)
 		return
 	}
 
-	service.RenderEditArticle(w, article_id)
+	service.RenderEditArticle(w, articleId)
 }
 
 // Edit article and redirect to edited article
 func UpdateArticle(w http.ResponseWriter, req *http.Request) {
-	var new_article model.Article
-	new_article.Title = req.FormValue("title")
-	new_article.Description = req.FormValue("description")
+	var newArticle model.Article
+	newArticle.Title = req.FormValue("title")
+	newArticle.Description = req.FormValue("description")
 
 	urlParams := mux.Vars(req)
-	article_id, err := strconv.Atoi(urlParams["id"])
+	articleId, err := strconv.Atoi(urlParams["id"])
 	if err != nil {
 		log.Fatalf("Convert string to int: %s", err)
 		return
 	}
 
-	article, err := service.GetArticle(article_id)
+	article, err := service.GetArticle(articleId)
 	if err != nil {
 		log.Fatalf("Model execution: %s", err)
 		return
 	}
 
-	err = service.UpdateArticle(article, new_article)
+	err = service.UpdateArticle(article, newArticle)
 	if err != nil {
 		log.Fatalf("Model execution: %s", err)
 	}
 
-	service.Redirect(w, req, "/article/"+urlParams["id"])
+	route := fmt.Sprintf("/article/%s", urlParams["id"])
+	service.Redirect(w, req, route)
 }

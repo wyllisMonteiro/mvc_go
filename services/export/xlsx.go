@@ -26,9 +26,9 @@ func (exportXLSX XLSX) ExportAsFile(datas []model.Article, handler HandlerServer
 	for index, item := range datas {
 		// first index = 0 and does not exit in excel
 		// second index = 1 is already use before
-		index_excel := strconv.Itoa(index + 2)
-		xlsx.SetCellValue("Sheet1", "A"+index_excel, item.Title)
-		xlsx.SetCellValue("Sheet1", "B"+index_excel, item.Description)
+		indexExcel := strconv.Itoa(index + 2)
+		xlsx.SetCellValue("Sheet1", "A"+indexExcel, item.Title)
+		xlsx.SetCellValue("Sheet1", "B"+indexExcel, item.Description)
 	}
 
 	err := xlsx.Write(handler.Writer)
