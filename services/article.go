@@ -10,11 +10,7 @@ import (
 	export "github.com/wyllisMonteiro/go_mvc/services/export"
 )
 
-/**
- *
- * Call database to get all articles
- *
- */
+// Call database to get all articles
 func GetArticles() ([]model.Article, error) {
 	articles, err := model.GetArticles()
 	if err != nil {
@@ -25,11 +21,7 @@ func GetArticles() ([]model.Article, error) {
 	return articles, nil
 }
 
-/**
- *
- * Call database to get article
- *
- */
+// Call database to get article
 func GetArticle(article_id int) (model.Article, error) {
 	article, err := model.GetArticle(article_id)
 	if err != nil {
@@ -40,11 +32,7 @@ func GetArticle(article_id int) (model.Article, error) {
 	return article, nil
 }
 
-/**
- *
- * Call database to create article
- *
- */
+// Call database to create article
 func CreateArticle(article model.Article) (int, error) {
 	article_id, err := model.CreateArticle(article)
 	if err != nil {
@@ -55,11 +43,7 @@ func CreateArticle(article model.Article) (int, error) {
 	return article_id, nil
 }
 
-/**
- *
- * Call database to update articles
- *
- */
+// Call database to update articles
 func UpdateArticle(article model.Article, new_article model.Article) error {
 	err := model.EditArticle(article, new_article)
 	if err != nil {
@@ -70,11 +54,7 @@ func UpdateArticle(article model.Article, new_article model.Article) error {
 	return nil
 }
 
-/**
- *
- * Display all articles page in a browser
- *
- */
+// Display all articles page in a browser
 func RenderArticles(w http.ResponseWriter) {
 	articles, err := GetArticles()
 	if err != nil {
@@ -93,11 +73,7 @@ func RenderArticles(w http.ResponseWriter) {
 	}
 }
 
-/**
- *
- * Display an article page in a browser
- *
- */
+// Display an article page in a browser
 func RenderArticle(w http.ResponseWriter, article_id int) {
 	article, err := GetArticle(article_id)
 	if err != nil {
@@ -116,11 +92,7 @@ func RenderArticle(w http.ResponseWriter, article_id int) {
 	}
 }
 
-/**
- *
- * Display create article page in a browser
- *
- */
+// Display create article page in a browser
 func RenderCreateArticle(w http.ResponseWriter) {
 	var render Render = Render{
 		ParseFiles: []string{"web/create_article.tmpl", "web/base.tmpl"},
@@ -134,11 +106,7 @@ func RenderCreateArticle(w http.ResponseWriter) {
 	}
 }
 
-/**
- *
- * Display edit article page in a browser
- *
- */
+// Display edit article page in a browser
 func RenderEditArticle(w http.ResponseWriter, article_id int) {
 	article, err := GetArticle(article_id)
 	if err != nil {
@@ -157,11 +125,7 @@ func RenderEditArticle(w http.ResponseWriter, article_id int) {
 	}
 }
 
-/**
- *
- * Export articles to CSV or XLSX
- *
- */
+// Export articles to CSV or XLSX
 func LaunchExport(type_export string, handler export.HandlerServer) error {
 	var export_file *export.Context
 

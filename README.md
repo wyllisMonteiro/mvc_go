@@ -1,8 +1,11 @@
 # Learn some design pattern using Golang
 
 ## Set up database
-- Go in models/bdd and add your config
-- You can create default db called wiki or change NAME_DB constant
+- Config database :
+    - By default `UserDB = "root", PassDB = "root", NameDB = "wiki"`
+    - You can add your config using followed env vars = `USERDB, PASSDB, NAMEDB`
+    - Run app with env var : `USERDB="root" PASSDB="root" NAMEDB="wiki" go run main.go` 
+- Create database that has the same name as env var `NAMEDB`
 - That's it !!! Because Gorm will create database schema
 
 ## Set up linter with vscode
@@ -43,6 +46,11 @@ $ golangci-lint run
 ## Launch project
 ```sh
 $ go run main.go
+```
+
+## Launch godoc
+```sh
+$ godoc -http=:6060
 ```
 
 [LICENSE](https://github.com/wyllisMonteiro/mvc_go/blob/master/LICENSE)

@@ -7,8 +7,11 @@ import (
 	model "github.com/wyllisMonteiro/go_mvc/models"
 )
 
+// Data about XLSX
 type XLSX struct{}
 
+// Export articles XLSX CSV file from browser
+// Go in context.go file to understand HandlerServer
 func (exportXLSX XLSX) ExportAsFile(datas []model.Article, handler HandlerServer) error {
 	contentDisposition := "attachment; filename=articles_" + formatCurrentDate() + ".xlsx"
 	handler.Writer.Header().Set("Content-Disposition", contentDisposition)
