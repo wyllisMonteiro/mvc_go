@@ -1,6 +1,7 @@
 enable:
     - bodyclose
     - deadcode
+    - dupl
     - errcheck
     - goconst
     - gocritic
@@ -18,3 +19,8 @@ enable:
     - lll
     - misspell
     - nakedret
+    - structcheck
+    - testpackage
+    - unused
+    - varcheck
+    - whitespace

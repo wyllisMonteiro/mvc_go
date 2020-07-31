@@ -75,7 +75,7 @@ func CreateArticle(article Article) (int, error) {
 }
 
 // Edit an article or error
-func EditArticle(article Article, new_article Article) error {
+func EditArticle(article Article, newArticle Article) error {
 	db, err := ConnectToBDD()
 
 	if err != nil {
@@ -87,7 +87,7 @@ func EditArticle(article Article, new_article Article) error {
 
 	db.AutoMigrate(&Article{})
 
-	db.Model(&article).Updates(new_article)
+	db.Model(&article).Updates(newArticle)
 
 	return nil
 }
