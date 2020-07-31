@@ -8,27 +8,21 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// Environment variable for database configuration
 type config struct {
 	UserDB string `env:"USERDB" envDefault:"root"`
 	PassDB string `env:"PASSDB" envDefault:"root"`
 	NameDB string `env:"NAMEDB" envDefault:"wiki"`
 }
 
-/**
- *
- * Make connexion with database
- * Use this function before making database request
- *
- * Example of use
- *
- * db, err := ConnectToBDD()
- * if err != nil {
- *	return "what you want"
- * }
- *
- * defer db.Close()
- *
- */
+// Make connexion with database
+// Use this function before making database request
+// Example of use
+// db, err := ConnectToBDD()
+// if err != nil {
+//	return "what you want"
+// }
+// defer db.Close()
 func ConnectToBDD() (*gorm.DB, error) {
 	cfg := config{}
 	if err := env.Parse(&cfg); err != nil {

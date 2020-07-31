@@ -5,6 +5,7 @@ import (
 	"github.com/wyllisMonteiro/go_mvc/controllers"
 )
 
+// Load controller (handler)
 func InitRoutes(r *mux.Router) *mux.Router {
 	r.HandleFunc("/", controllers.GetArticles).Methods("GET")
 	r.HandleFunc("/articles", controllers.GetArticles).Methods("GET")

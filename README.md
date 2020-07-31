@@ -48,4 +48,9 @@ $ golangci-lint run
 $ go run main.go
 ```
 
+## Launch godoc
+```sh
+$ godoc -http=:6060
+```
+
 [LICENSE](https://github.com/wyllisMonteiro/mvc_go/blob/master/LICENSE)

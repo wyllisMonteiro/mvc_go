@@ -4,12 +4,14 @@ import (
 	"fmt"
 )
 
+// Structure of an article in db
 type Article struct {
 	ID          int
 	Title       string
 	Description string
 }
 
+// Get all articles or error
 func GetArticles() ([]Article, error) {
 	var articles []Article
 
@@ -33,6 +35,7 @@ func GetArticles() ([]Article, error) {
 	return articles, nil
 }
 
+// Get one article by id or error
 func GetArticle(id int) (Article, error) {
 	var article Article
 
@@ -53,6 +56,7 @@ func GetArticle(id int) (Article, error) {
 	return article, nil
 }
 
+// Create an article or error
 func CreateArticle(article Article) (int, error) {
 	db, err := ConnectToBDD()
 
@@ -70,6 +74,7 @@ func CreateArticle(article Article) (int, error) {
 	return article.ID, nil
 }
 
+// Edit an article or error
 func EditArticle(article Article, new_article Article) error {
 	db, err := ConnectToBDD()
 
