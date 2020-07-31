@@ -1,13 +1,18 @@
 package models
 
 import (
+	"fmt"
+
+	"github.com/caarlos0/env"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
 
-var USER_DB = "root"
-var PASS_DB = "root"
-var NAME_DB = "wiki"
+type config struct {
+	UserDB string `env:"USERDB" envDefault:"root"`
+	PassDB string `env:"PASSDB" envDefault:"root"`
+	NameDB string `env:"NAMEDB" envDefault:"wiki"`
+}
 
 /**
  *
@@ -25,7 +30,13 @@ var NAME_DB = "wiki"
  *
  */
 func ConnectToBDD() (*gorm.DB, error) {
-	db, err := gorm.Open("mysql", USER_DB+":"+PASS_DB+"@/"+NAME_DB+"?charset=utf8&parseTime=True&loc=Local")
+	cfg := config{}
+	if err := env.Parse(&cfg); err != nil {
+		fmt.Printf("%+v\n", err)
+		return nil, err
+	}
+
+	db, err := gorm.Open("mysql", cfg.UserDB+":"+cfg.PassDB+"@/"+cfg.NameDB+"?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		return nil, err
 	} else {
