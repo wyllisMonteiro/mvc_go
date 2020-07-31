@@ -22,8 +22,8 @@ func GetArticles() ([]model.Article, error) {
 }
 
 // Call database to get article
-func GetArticle(article_id int) (model.Article, error) {
-	article, err := model.GetArticle(article_id)
+func GetArticle(articleId int) (model.Article, error) {
+	article, err := model.GetArticle(articleId)
 	if err != nil {
 		log.Fatalf("Model execution: %s", err)
 		return model.Article{}, err
@@ -34,18 +34,18 @@ func GetArticle(article_id int) (model.Article, error) {
 
 // Call database to create article
 func CreateArticle(article model.Article) (int, error) {
-	article_id, err := model.CreateArticle(article)
+	articleId, err := model.CreateArticle(article)
 	if err != nil {
 		log.Fatalf("Model execution: %s", err)
 		return 0, err
 	}
 
-	return article_id, nil
+	return articleId, nil
 }
 
 // Call database to update articles
-func UpdateArticle(article model.Article, new_article model.Article) error {
-	err := model.EditArticle(article, new_article)
+func UpdateArticle(article model.Article, newArticle model.Article) error {
+	err := model.EditArticle(article, newArticle)
 	if err != nil {
 		log.Fatalf("Model execution: %s", err)
 		return err
@@ -74,8 +74,8 @@ func RenderArticles(w http.ResponseWriter) {
 }
 
 // Display an article page in a browser
-func RenderArticle(w http.ResponseWriter, article_id int) {
-	article, err := GetArticle(article_id)
+func RenderArticle(w http.ResponseWriter, articleId int) {
+	article, err := GetArticle(articleId)
 	if err != nil {
 		return
 	}
@@ -107,8 +107,8 @@ func RenderCreateArticle(w http.ResponseWriter) {
 }
 
 // Display edit article page in a browser
-func RenderEditArticle(w http.ResponseWriter, article_id int) {
-	article, err := GetArticle(article_id)
+func RenderEditArticle(w http.ResponseWriter, articleId int) {
+	article, err := GetArticle(articleId)
 	if err != nil {
 		return
 	}
@@ -126,26 +126,27 @@ func RenderEditArticle(w http.ResponseWriter, article_id int) {
 }
 
 // Export articles to CSV or XLSX
-func LaunchExport(type_export string, handler export.HandlerServer) error {
-	var export_file *export.Context
+func LaunchExport(typeExport string, handler export.HandlerServer) error {
+	var exportFile *export.Context
 
 	articles, err := GetArticles()
 	if err != nil {
 		return err
 	}
 
-	switch type_export {
+	var file export.ExportArticles
+	switch typeExport {
 	case "csv":
-		csv := &export.CSV{}
-		export_file = export.NewContext(csv, articles, handler)
+		file = &export.CSV{}
 	case "xlsx":
-		xlsx := &export.XLSX{}
-		export_file = export.NewContext(xlsx, articles, handler)
+		file = &export.XLSX{}
 	default:
 		return errors.New("Unavaliable file format")
 	}
 
-	err = export_file.MakeExport()
+	exportFile = export.NewContext(file, articles, handler)
+
+	err = exportFile.MakeExport()
 	if err != nil {
 		return err
 	}
