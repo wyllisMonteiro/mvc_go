@@ -8,8 +8,11 @@ import (
 	model "github.com/wyllisMonteiro/go_mvc/models"
 )
 
+// Data about CSV
 type CSV struct{}
 
+// Export articles as CSV file from browser
+// Go in context.go file to understand HandlerServer
 func (exportCSV CSV) ExportAsFile(datas []model.Article, handler HandlerServer) error {
 	contentDisposition := "attachment; filename=articles_" + formatCurrentDate() + ".csv"
 	handler.Writer.Header().Set("Content-Disposition", contentDisposition)
@@ -36,6 +39,7 @@ func (exportCSV CSV) ExportAsFile(datas []model.Article, handler HandlerServer) 
 	return nil
 }
 
+// Get current date as string with format "YYYY.MM.DD H:i"
 func formatCurrentDate() string {
 	today := time.Now()
 	return today.Format("2006.01.02 15:04")
