@@ -11,6 +11,33 @@ type Article struct {
 	Description string
 }
 
+// Init empty []Article
+func EmptyArticles() []Article {
+	return []Article{}
+}
+
+// Init []Article
+func InitArticles(id int, title string, description string) []Article {
+	return []Article{
+		{
+			ID:          id,
+			Title:       title,
+			Description: description,
+		},
+	}
+}
+
+// Add Article to []Article
+func AddArticleItem(articles []Article, id int, title string, description string) []Article {
+	var newArticle Article = Article{
+		ID:          id,
+		Title:       title,
+		Description: description,
+	}
+
+	return append(articles, newArticle)
+}
+
 // Get all articles or error
 func GetArticles() ([]Article, error) {
 	var articles []Article
