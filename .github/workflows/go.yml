@@ -46,6 +46,7 @@ jobs:
           go test ./... -v > .artifacts/report_tests.txt
 
       - name: Create artifact for testing process 
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: report_tests
