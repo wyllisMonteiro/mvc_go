@@ -29,7 +29,6 @@ func fakeArticles() []model.Article {
 func TestNewContextCSV(t *testing.T) {
 	var handlerServer HandlerServer = createfakeHandler()
 	var articles []model.Article = fakeArticles()
-	var emptyArticles []model.Article = model.EmptyArticles()
 	var csv ExportArticles = CSV{}
 
 	context := NewContext(csv, articles, handlerServer)
@@ -40,6 +39,7 @@ func TestNewContextCSV(t *testing.T) {
 		}
 	})
 
+	var emptyArticles []model.Article = model.EmptyArticles()
 	contextEmptyArticles := NewContext(csv, emptyArticles, handlerServer)
 
 	t.Run("Articles empty", func(t *testing.T) {
@@ -53,7 +53,6 @@ func TestNewContextCSV(t *testing.T) {
 func TestNewContextHLSX(t *testing.T) {
 	var handlerServer HandlerServer = createfakeHandler()
 	var articles []model.Article = fakeArticles()
-	var emptyArticles []model.Article = model.EmptyArticles()
 	var xlsx ExportArticles = XLSX{}
 
 	context := NewContext(xlsx, articles, handlerServer)
@@ -64,6 +63,7 @@ func TestNewContextHLSX(t *testing.T) {
 		}
 	})
 
+	var emptyArticles []model.Article = model.EmptyArticles()
 	contextEmptyArticles := NewContext(xlsx, emptyArticles, handlerServer)
 
 	t.Run("Articles empty", func(t *testing.T) {
