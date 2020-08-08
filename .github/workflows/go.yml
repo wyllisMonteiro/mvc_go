@@ -25,16 +25,29 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
           fi
+      
+      - run: mkdir -p .artifacts
 
       - name: Lint
-        if: ${{ failure() }}
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.26.0
-          cd api
-          golangci-lint run
+          golangci-lint run > .artifacts/report_lint.txt
+
+      - name: Create artifact for linting process 
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+            name: report_lint
+            path: .artifacts/report_lint.txt
 
       - name: Tests
+        if: ${{ always() }}
         run: |
-          cd api
-          go test ./... -v
+          go test ./... -v > .artifacts/report_tests.txt
 
+      - name: Create artifact for testing process 
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: report_tests
+          path: .artifacts/report_tests.txt
