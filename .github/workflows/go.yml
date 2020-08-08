@@ -27,11 +27,12 @@ jobs:
           fi
 
       - name: Lint
-        if: ${{ success() || cancelled() || failure() }}
+        if: ${{ always()) }}
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.26.0
           golangci-lint run
 
       - name: Tests
+        if: ${{ always() }}
         run: |
           go test ./... -v
