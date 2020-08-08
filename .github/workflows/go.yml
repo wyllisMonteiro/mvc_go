@@ -42,8 +42,9 @@ jobs:
       - name: Tests
         if: ${{ always() }}
         run: |
+          ls -l
           go test ./... -v
-          
+
       - name: Create artifact for testing process
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
