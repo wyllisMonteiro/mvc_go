@@ -33,7 +33,7 @@ jobs:
           golangci-lint run
 
       - name: Create artifact for linting process 
-        if: ${{ always() }}
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
             name: report_lint
