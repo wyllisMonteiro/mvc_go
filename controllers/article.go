@@ -28,9 +28,6 @@ func DownloadArticles(w http.ResponseWriter, req *http.Request) {
 	}
 
 	err := service.LaunchExport(typeDownload, handler)
-	if err != nil {
-		return
-	}
 }
 
 // Render an article view
