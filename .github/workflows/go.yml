@@ -26,7 +26,6 @@ jobs:
             dep ensure
           fi
       
-      - name: Create .artifacts folder
       - run: mkdir -p .artifacts
 
       - name: Lint
