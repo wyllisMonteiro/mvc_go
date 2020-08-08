@@ -44,10 +44,3 @@ jobs:
         run: |
           ls -l
           go test ./... -v
-
-      - name: Create artifact for testing process
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v2
-        with:
-            name: report_tests
-            path: .artifacts/report_tests.txt
