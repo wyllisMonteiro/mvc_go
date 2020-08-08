@@ -31,6 +31,7 @@ jobs:
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.26.0
           golangci-lint run
+      - name: Create artifact for linting process  
         uses: actions/upload-artifact@v2
         with:
             name: report_lint
@@ -40,6 +41,7 @@ jobs:
         if: ${{ always() }}
         run: |
           go test ./... -v
+      - name: Create artifact for testing process  
         uses: actions/upload-artifact@v2
         with:
             name: report_tests
