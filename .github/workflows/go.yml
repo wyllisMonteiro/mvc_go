@@ -41,7 +41,7 @@ jobs:
             path: .artifacts/report_lint.txt
 
       - name: Tests
-        if: ${{ failure() }}
+        if: ${{ always() }}
         run: |
           go test ./... -v > .artifacts/report_tests.txt
 
