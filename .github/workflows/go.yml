@@ -1,0 +1,53 @@
+name: Go
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          stable: 'false'
+          go-version: '1.14.1'
+
+      - name: Get dependencies
+        run: |
+          go get -v -t -d ./...
+          if [ -f Gopkg.toml ]; then
+            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+            dep ensure
+          fi
+      
+      - run: mkdir -p .artifacts
+
+      - name: Lint
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.26.0
+          golangci-lint run > .artifacts/report_lint.txt
+
+      - name: Create artifact for linting process 
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+            name: report_lint
+            path: .artifacts/report_lint.txt
+
+      - name: Tests
+        if: ${{ always() }}
+        run: |
+          go test ./... -v > .artifacts/report_tests.txt
+
+      - name: Create artifact for testing process 
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: report_tests
+          path: .artifacts/report_tests.txt
