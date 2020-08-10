@@ -30,7 +30,7 @@ func ConnectToBDD() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	db, err := gorm.Open("mysql", cfg.UserDB+":"+cfg.PassDB+"@/"+cfg.NameDB+"?charset=utf8&parseTime=True&loc=Local")
+	db, err := gorm.Open("mysql", cfg.UserDB+":"+cfg.PassDB+"@(db)/"+cfg.NameDB+"?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		return nil, err
 	} else {

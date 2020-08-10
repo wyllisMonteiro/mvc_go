@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/wyllisMonteiro/go_mvc/controllers"
+	"github.com/wyllisMonteiro/warticle/controllers"
 )
 
 // Load controller (handler)

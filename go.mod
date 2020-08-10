@@ -1,4 +1,4 @@
-module github.com/wyllisMonteiro/go_mvc
+module github.com/wyllisMonteiro/warticle
 
 go 1.14
 

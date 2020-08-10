@@ -3,7 +3,7 @@ package export
 import (
 	"net/http"
 
-	model "github.com/wyllisMonteiro/go_mvc/models"
+	model "github.com/wyllisMonteiro/warticle/models"
 )
 
 // HandlerServer : Current handler params useful to make export from browser
