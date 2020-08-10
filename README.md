@@ -9,12 +9,24 @@ It's a student project for building an application that allows user to create ar
 - Download from browser articles in .csv or .xlsx
 
 ## Set up database
-- Config database :
-    - By default `UserDB = "root", PassDB = "root", NameDB = "wiki"`
-    - You can add your config using followed env vars = `USERDB, PASSDB, NAMEDB`
-    - Run app with env var : `USERDB="root" PASSDB="root" NAMEDB="wiki" go run main.go` 
-- Create database that has the same name as env var `NAMEDB`
-- That's it !!! Because Gorm will create database schema
+- Config database for Golang app:
+    - Create a file called `/warticle/.env`
+    - Set `USERDB` like this `USERDB=root`
+    - Set `PASSDB` like this `PASSDB=root`
+    - Set `NAMEDB` like this `NAMEDB=wiki`
+- Config database in `docker-compose.yml`
+    - Set `MYSQL_ROOT_PASSWORD, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD`
+
+At the begining there is no articles because db is empty
+
+## Start project
+Use `docker-compose up --build -d`
+
+If you need to update Golang code you can execute `docker-compose up --build -d app`
+
+Application at http://localhost:9000
+
+Godoc at http://localhost:6060
 
 ## Set up linter with vscode
 - Open config vscode file 
