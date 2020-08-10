@@ -9,6 +9,7 @@ require (
 	github.com/golangci/golangci-lint v1.27.0 // indirect
 	github.com/gorilla/mux v1.7.4
 	github.com/jinzhu/gorm v1.9.15
+	github.com/joho/godotenv v1.3.0
 	github.com/wyllisMonteiro/mailing/api v0.0.0-20200625155400-a036cafee65b // indirect
 	github.com/yuin/goldmark v1.2.1 // indirect
 	golang.org/x/net v0.0.0-20200707034311-ab3426394381 // indirect

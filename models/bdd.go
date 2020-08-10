@@ -1,18 +1,20 @@
 package models
 
 import (
-	"fmt"
+	"os"
 
-	"github.com/caarlos0/env"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
 )
 
-// Environment variable for database configuration
-type config struct {
-	UserDB string `env:"USERDB" envDefault:"root"`
-	PassDB string `env:"PASSDB" envDefault:"root"`
-	NameDB string `env:"NAMEDB" envDefault:"wiki"`
+func goDotEnvVariable(key string) (string, error) {
+	err := godotenv.Load("../.env")
+	if err != nil {
+		return "", err
+	}
+
+	return os.Getenv(key), nil
 }
 
 // Make connexion with database
@@ -24,13 +26,22 @@ type config struct {
 // }
 // defer db.Close()
 func ConnectToBDD() (*gorm.DB, error) {
-	cfg := config{}
-	if err := env.Parse(&cfg); err != nil {
-		fmt.Printf("%+v\n", err)
-		return nil, err
+	userDb, err := goDotEnvVariable("USERDB")
+	if err != nil {
+		userDb = "root"
 	}
 
-	db, err := gorm.Open("mysql", cfg.UserDB+":"+cfg.PassDB+"@(db)/"+cfg.NameDB+"?charset=utf8&parseTime=True&loc=Local")
+	passDb, err := goDotEnvVariable("PASSDB")
+	if err != nil {
+		passDb = "root"
+	}
+
+	nameDb, err := goDotEnvVariable("NAMEDB")
+	if err != nil {
+		nameDb = "wiki"
+	}
+
+	db, err := gorm.Open("mysql", userDb+":"+passDb+"@(db)/"+nameDb+"?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		return nil, err
 	} else {

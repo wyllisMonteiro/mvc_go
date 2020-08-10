@@ -1,4 +1,12 @@
-# Learn some design pattern using Golang
+# warticle
+
+# What is warticle
+It's a student project for building an application that allows user to create articles. I used strategy design pattern with Golang and MVC architecture.
+
+# Features
+- Display all articles
+- Display, create and edit article
+- Download from browser articles in .csv or .xlsx
 
 ## Set up database
 - Config database :
@@ -22,7 +30,7 @@
     ```
 - Thank's to ```.golangci.yml``` file, there are all the necessary tools
 
-## Set up unit tests with vscode
+## Set up unit tests
 - Just create a file with _test.go name
 
 Example :
@@ -41,16 +49,6 @@ $ go test ./...
 ## Launch linter
 ```sh
 $ golangci-lint run
-```
-
-## Launch project
-```sh
-$ go run main.go
-```
-
-## Launch godoc
-```sh
-$ godoc -http=:6060
 ```
 
 [LICENSE](https://github.com/wyllisMonteiro/mvc_go/blob/master/LICENSE)
