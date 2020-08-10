@@ -4,7 +4,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	model "github.com/wyllisMonteiro/go_mvc/models"
+	model "github.com/wyllisMonteiro/warticle/models"
 )
 
 // Create fake handler

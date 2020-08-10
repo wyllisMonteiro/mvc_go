@@ -6,8 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	model "github.com/wyllisMonteiro/go_mvc/models"
-	export "github.com/wyllisMonteiro/go_mvc/services/export"
+	model "github.com/wyllisMonteiro/warticle/models"
+	export "github.com/wyllisMonteiro/warticle/services/export"
 )
 
 // Call database to get all articles

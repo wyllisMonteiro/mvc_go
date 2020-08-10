@@ -4,7 +4,7 @@ import (
 	"strconv"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
-	model "github.com/wyllisMonteiro/go_mvc/models"
+	model "github.com/wyllisMonteiro/warticle/models"
 )
 
 // Data about XLSX
