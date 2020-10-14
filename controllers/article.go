@@ -8,9 +8,9 @@ import (
 
 	"github.com/gorilla/mux"
 
-	model "github.com/wyllisMonteiro/go_mvc/models"
-	service "github.com/wyllisMonteiro/go_mvc/services"
-	export "github.com/wyllisMonteiro/go_mvc/services/export"
+	model "github.com/wyllisMonteiro/warticle/models"
+	service "github.com/wyllisMonteiro/warticle/services"
+	export "github.com/wyllisMonteiro/warticle/services/export"
 )
 
 // Render all articles view

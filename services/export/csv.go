@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	model "github.com/wyllisMonteiro/go_mvc/models"
+	model "github.com/wyllisMonteiro/warticle/models"
 )
 
 // Data about CSV

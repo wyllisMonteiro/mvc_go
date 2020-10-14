@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/wyllisMonteiro/go_mvc/router"
+	"github.com/wyllisMonteiro/warticle/router"
 )
 
 /**

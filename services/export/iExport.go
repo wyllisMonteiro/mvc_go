@@ -1,7 +1,7 @@
 package export
 
 import (
-	model "github.com/wyllisMonteiro/go_mvc/models"
+	model "github.com/wyllisMonteiro/warticle/models"
 )
 
 // ExportArticles : Export all articles from browser
