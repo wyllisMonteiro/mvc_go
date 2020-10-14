@@ -9,9 +9,9 @@ services:
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: wiki
-            MYSQL_USER: root
-            MYSQL_PASSWORD: root
+            MYSQL_DATABASE: ${NAMEDB}
+            MYSQL_USER: ${USERDB}
+            MYSQL_PASSWORD: ${PASSDB}
         ports:
             - "3306"
 
